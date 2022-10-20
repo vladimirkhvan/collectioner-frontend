@@ -21,6 +21,7 @@
     "sass": "^1.55.0",
     "scss": "^0.2.4",
     "web-vitals": "^2.1.4",
+    "yup": "^0.32.11",
     "zen-observable-ts": "^1.1.0"
   },
   "scripts": {
