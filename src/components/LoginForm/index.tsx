@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Box, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { useMutation } from '@apollo/client';
@@ -9,12 +9,13 @@ import { LOGIN } from '../../apollo/mutations/Login';
 import { LoginSchema } from './LoginSchema';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/userContext';
+import { UserMap } from '../../shared/constants/localStorageMap';
 
 export const LoginForm: React.FC = () => {
-
-    const {setUsername} = useUser();
+    const { setUsername } = useUser();
 
     const [login, { error, data }] = useMutation(LOGIN);
+
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -24,23 +25,23 @@ export const LoginForm: React.FC = () => {
         },
         validationSchema: LoginSchema,
         onSubmit: (values) => {
-            console.log(JSON.stringify(values, null, 2));
-            login({ variables: { input: {...values} } });
+            login({ variables: { input: { ...values } } });
         },
     });
 
     useEffect(() => {
-        if(error){
+        if (error) {
             console.log(error);
         }
-    }, [error])
+    }, [error]);
 
     useEffect(() => {
-        if(data){
-            setUsername(data.login.name)
-            navigate('/')
+        if (data?.login) {
+            setUsername(data.login.name);
+            localStorage.setItem(UserMap.USERNAME, data.login.name)
+            navigate('/');
         }
-    }, [data, navigate])
+    }, [data, navigate]);
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
