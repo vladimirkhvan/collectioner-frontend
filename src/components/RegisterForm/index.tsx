@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Box, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { useMutation } from '@apollo/client';
@@ -7,9 +7,11 @@ import style from './RegisterForm.module.scss';
 
 import { REGISTER } from '../../apollo/mutations/Register';
 import { RegisterSchema } from './RegisterSchema';
+import { useNavigate } from 'react-router-dom';
 
 export const RegisterForm: React.FC = () => {
-    const [createUser, { error }] = useMutation(REGISTER);
+    const [createUser, { error, data }] = useMutation(REGISTER);
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -24,6 +26,18 @@ export const RegisterForm: React.FC = () => {
             error && console.error(error);
         },
     });
+
+    useEffect(() => {
+        if(error){
+            console.log(error);
+        }
+    }, [error])
+
+    useEffect(() => {
+        if(data){
+            navigate('/login')
+        }
+    }, [data, navigate])
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
