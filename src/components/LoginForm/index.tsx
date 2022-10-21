@@ -8,8 +8,11 @@ import style from './LoginForm.module.scss';
 import { LOGIN } from '../../apollo/mutations/Login';
 import { LoginSchema } from './LoginSchema';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/userContext';
 
 export const LoginForm: React.FC = () => {
+
+    const {setUsername} = useUser();
 
     const [login, { error, data }] = useMutation(LOGIN);
     const navigate = useNavigate();
@@ -34,6 +37,7 @@ export const LoginForm: React.FC = () => {
 
     useEffect(() => {
         if(data){
+            setUsername(data.login.name)
             navigate('/')
         }
     }, [data, navigate])
