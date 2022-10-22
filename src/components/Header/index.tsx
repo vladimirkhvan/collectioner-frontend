@@ -42,14 +42,14 @@ export const Header: React.FC<HeaderProps> = ({ username, setUsername }) => {
                 <Search />
             </IconButton>
             {username ? (
-                <div>
-                    {username}
+                <>
+                    <Link to = '/me'>{username}</Link>
                     <Tooltip title="Logout">
                         <IconButton onClick={() => logout()}>
                             <LogoutIcon />
                         </IconButton>
                     </Tooltip>
-                </div>
+                </>
             ) : (
                 <>
                     <Link to="/login">Login</Link>
