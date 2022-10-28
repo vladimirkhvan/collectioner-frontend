@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Box, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { useMutation } from '@apollo/client';
@@ -22,22 +22,22 @@ export const RegisterForm: React.FC = () => {
         validationSchema: RegisterSchema,
         onSubmit: (values) => {
             console.log(JSON.stringify(values, null, 2));
-            createUser({ variables: { input: {...values} } });
+            createUser({ variables: { input: { ...values } } });
             error && console.error(error);
         },
     });
 
     useEffect(() => {
-        if(error){
+        if (error) {
             console.log(error);
         }
-    }, [error])
+    }, [error]);
 
     useEffect(() => {
-        if(data){
-            navigate('/login')
+        if (data) {
+            navigate('/login');
         }
-    }, [data, navigate])
+    }, [data, navigate]);
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
