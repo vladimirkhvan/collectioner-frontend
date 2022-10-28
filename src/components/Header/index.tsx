@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({ username, setUsername }) => {
             localStorage.removeItem(UserMap.USERNAME);
             setUsername('');
         }
-    }, [data]);
+    }, [data, setUsername]);
 
     return (
         <header className={style.header}>
