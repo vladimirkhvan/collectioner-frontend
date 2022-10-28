@@ -41,7 +41,7 @@ export const LoginForm: React.FC = () => {
             localStorage.setItem(UserMap.USERNAME, data.login.name)
             navigate('/');
         }
-    }, [data, navigate]);
+    }, [data, navigate, setUsername]);
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
