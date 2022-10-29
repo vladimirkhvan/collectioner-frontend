@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Autocomplete, Box, Button, TextField } from '@mui/material';
-import { useMutation } from '@apollo/client';
+import { Autocomplete, Box, Button, CircularProgress, TextField } from '@mui/material';
+import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COLLECTION } from '../../apollo/mutations/CreateCollection';
 import { useFormik } from 'formik';
 import { CollectionSchema } from './CollectionSchema';
@@ -8,23 +8,18 @@ import MDEditor from '@uiw/react-md-editor';
 
 import style from './CollectionForm.module.scss';
 import { uploadImage } from '../../utils/uploadImage';
-
-const themeOptions = [
-    { label: 'none', id: 0 },
-    { label: 'music', id: 1 },
-    { label: 'alcohol', id: 2 },
-    { label: 'books', id: 3 },
-    { label: 'items', id: 4 },
-];
+import { GET_THEMES } from '../../apollo/queries/GetThemes';
 
 export const CollectionForm: React.FC = () => {
-    const [createCollection, { error, data }] = useMutation(CREATE_COLLECTION);
+    const [createCollection, { error: collectionError, data: collectionData }] =
+        useMutation(CREATE_COLLECTION);
+    const { loading: themeLoading, error: themeError, data: themeData } = useQuery(GET_THEMES);
 
     const formik = useFormik({
         initialValues: {
             name: '',
             description: '',
-            theme: { label: 'none', id: 0 },
+            theme: { label: 'none', id: 1 },
             image: null,
         },
         validationSchema: CollectionSchema,
@@ -37,7 +32,7 @@ export const CollectionForm: React.FC = () => {
                             input: { ...values, theme: values.theme.id, image: imageUrl },
                         },
                     });
-                    error && console.error(error);
+                    collectionError && console.error(collectionError);
                 })();
             } catch (error) {
                 console.error(error);
@@ -46,16 +41,22 @@ export const CollectionForm: React.FC = () => {
     });
 
     useEffect(() => {
-        if (error) {
-            console.log(error);
+        if (collectionError) {
+            console.log(collectionError);
         }
-    }, [error]);
+    }, [collectionError]);
 
     useEffect(() => {
-        if (data) {
+        if (collectionData) {
             console.log('success');
         }
-    }, [data]);
+    }, [collectionData]);
+
+    useEffect(() => {
+        if (themeError) {
+            console.log(themeError);
+        }
+    }, [themeError]);
 
     return (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -73,7 +74,7 @@ export const CollectionForm: React.FC = () => {
                 <Box>
                     <MDEditor
                         value={formik.values.description}
-                        onChange={(value) => formik.setFieldValue('description',value)}
+                        onChange={(value) => formik.setFieldValue('description', value)}
                     />
                 </Box>
                 <Box>
@@ -88,19 +89,23 @@ export const CollectionForm: React.FC = () => {
                         />
                     </label>
                 </Box>
+                {themeLoading && !themeError ? (
+                    <CircularProgress disableShrink />
+                ) : (
+                    <Autocomplete
+                        disablePortal
+                        isOptionEqualToValue={(option, value) => option.id === value.id}
+                        value={formik.values.theme}
+                        onChange={(_, newValue: { label: string; id: number }) => {
+                            formik.setFieldValue('theme', newValue);
+                        }}
+                        options={themeData.getThemes}
+                        renderInput={(params) => (
+                            <TextField {...params} name="theme" label="Controllable" />
+                        )}
+                    />
+                )}
 
-                <Autocomplete
-                    disablePortal
-                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                    value={formik.values.theme}
-                    onChange={(_, newValue: { label: string; id: number }) => {
-                        formik.setFieldValue('theme', newValue);
-                    }}
-                    options={themeOptions}
-                    renderInput={(params) => (
-                        <TextField {...params} name="theme" label="Controllable" />
-                    )}
-                />
                 <Button variant="outlined" type="submit">
                     create collection
                 </Button>
