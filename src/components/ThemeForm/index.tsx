@@ -11,7 +11,7 @@ export const ThemeForm: React.FC = () => {
     const [createTheme, { error, data }] = useMutation(CREATE_THEME);
     const formik = useFormik({
         initialValues: {
-            name: '',
+            label: '',
         },
         validationSchema: ThemeSchema,
         onSubmit: (values) => {
@@ -40,12 +40,12 @@ export const ThemeForm: React.FC = () => {
                 <TextField
                     label="Name"
                     variant="outlined"
-                    name="name"
+                    name="label"
                     type="text"
                     onChange={formik.handleChange}
-                    value={formik.values.name}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
+                    value={formik.values.label}
+                    error={formik.touched.label && Boolean(formik.errors.label)}
+                    helperText={formik.touched.label && formik.errors.label}
                 />
                 <button type="submit">submit.</button>
             </form>
