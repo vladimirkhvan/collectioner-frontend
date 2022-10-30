@@ -1,5 +1,14 @@
-import React, { useEffect } from 'react';
-import { Autocomplete, Box, Button, CircularProgress, TextField } from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Autocomplete,
+    Box,
+    Button,
+    CircularProgress,
+    TextField,
+} from '@mui/material';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_COLLECTION } from '../../apollo/mutations/CreateCollection';
 import { useFormik } from 'formik';
@@ -9,11 +18,16 @@ import MDEditor from '@uiw/react-md-editor';
 import style from './CollectionForm.module.scss';
 import { uploadImage } from '../../utils/uploadImage';
 import { GET_THEMES } from '../../apollo/queries/GetThemes';
+import { ExpandMore } from '@mui/icons-material';
+import { TYPES } from '../../shared/constants/enums';
 
 export const CollectionForm: React.FC = () => {
     const [createCollection, { error: collectionError, data: collectionData }] =
         useMutation(CREATE_COLLECTION);
     const { loading: themeLoading, error: themeError, data: themeData } = useQuery(GET_THEMES);
+
+    const [customFields, setCustomFields] = useState([]);
+    const fieldId = useRef(0);
 
     const formik = useFormik({
         initialValues: {
@@ -29,7 +43,17 @@ export const CollectionForm: React.FC = () => {
                     const imageUrl = await uploadImage(values.image);
                     createCollection({
                         variables: {
-                            input: { ...values, theme: values.theme.id, image: imageUrl },
+                            input: {
+                                ...values,
+                                theme: values.theme.id,
+                                image: imageUrl,
+                                fields: customFields
+                                    .filter((field) => field.attribute !== null)
+                                    .map((field) => ({
+                                        attribute: field.attribute,
+                                        attribute_type: field.attribute_type,
+                                    })),
+                            },
                         },
                     });
                     collectionError && console.error(collectionError);
@@ -39,6 +63,30 @@ export const CollectionForm: React.FC = () => {
             }
         },
     });
+
+    const onCreateField = (attribute_type: TYPES) => {
+        fieldId.current += 1;
+        setCustomFields((prevCustomFields) => [
+            ...prevCustomFields,
+            { attribute: null, attribute_type, localId: fieldId.current },
+        ]);
+    };
+
+    const onChangeField = (event, index) => {
+        setCustomFields((prevCustomFields) => {
+            prevCustomFields[index].attribute = event.target.value;
+            return prevCustomFields;
+        });
+    };
+
+    const fields = customFields.map((field, index) => (
+        <TextField
+            label={`${field.attribute_type} fieldName`}
+            variant="outlined"
+            onChange={(event) => onChangeField(event, index)}
+            key={field.localId}
+        />
+    ));
 
     useEffect(() => {
         if (collectionError) {
@@ -59,7 +107,13 @@ export const CollectionForm: React.FC = () => {
     }, [themeError]);
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                flexDirection: 'column',
+            }}>
             <form className={style.form} onSubmit={formik.handleSubmit}>
                 <TextField
                     label="Name"
@@ -110,6 +164,38 @@ export const CollectionForm: React.FC = () => {
                     create collection
                 </Button>
             </form>
+            <Accordion className={style.accordion}>
+                <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content">
+                    Option Fields
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                        }}>
+                        <Button variant="contained" onClick={() => onCreateField(TYPES.BOOLEAN)}>
+                            add boolean input
+                        </Button>
+                        <Button variant="contained" onClick={() => onCreateField(TYPES.NUMBER)}>
+                            add number input
+                        </Button>
+                        <Button variant="contained" onClick={() => onCreateField(TYPES.TEXT)}>
+                            add text input
+                        </Button>
+                        <Button variant="contained" onClick={() => onCreateField(TYPES.STRING)}>
+                            add string input
+                        </Button>
+                        <Button variant="contained" onClick={() => onCreateField(TYPES.DATE)}>
+                            add date input
+                        </Button>
+
+                        {fields}
+                    </Box>
+                </AccordionDetails>
+            </Accordion>
         </Box>
     );
 };
