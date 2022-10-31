@@ -40,9 +40,11 @@ export const RegisterForm: React.FC = () => {
     }, [data, navigate]);
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <form className={style.registerForm} onSubmit={formik.handleSubmit}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }} className={style.registration}>
+            <form className={style.form} onSubmit={formik.handleSubmit}>
+                <h2>registration.</h2>
                 <TextField
+                    className={style.formInput}
                     label="Name"
                     variant="outlined"
                     name="name"
@@ -53,6 +55,7 @@ export const RegisterForm: React.FC = () => {
                     helperText={formik.touched.name && formik.errors.name}
                 />
                 <TextField
+                    className={style.formInput}
                     label="Email"
                     variant="outlined"
                     name="email"
@@ -63,6 +66,7 @@ export const RegisterForm: React.FC = () => {
                     helperText={formik.touched.email && formik.errors.email}
                 />
                 <TextField
+                    className={style.formInput}
                     label="Password"
                     variant="outlined"
                     name="password"

@@ -44,9 +44,11 @@ export const LoginForm: React.FC = () => {
     }, [data, navigate, setUsername]);
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <form className={style.loginForm} onSubmit={formik.handleSubmit}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap' }} className={style.login}>
+            <form className={style.form} onSubmit={formik.handleSubmit}>
+                <h2>login.</h2>
                 <TextField
+                    className={style.formInput}
                     label="Email"
                     variant="outlined"
                     name="email"
@@ -57,6 +59,7 @@ export const LoginForm: React.FC = () => {
                     helperText={formik.touched.email && formik.errors.email}
                 />
                 <TextField
+                    className={style.formInput}
                     label="Password"
                     variant="outlined"
                     name="password"

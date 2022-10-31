@@ -31,31 +31,42 @@ export const Header: React.FC<HeaderProps> = ({ username, setUsername }) => {
 
     return (
         <header className={style.header}>
-            <Link to="/">colle.</Link>
-            <Switch
-                // checked={checked}
-                // onChange={handleChange}
-                inputProps={{ 'aria-label': 'controlled' }}
-            />
-            <TextField id="standard-basic" label="Standard" variant="standard" />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                <Search />
-            </IconButton>
-            {username ? (
-                <>
-                    <Link to = '/me'>{username}</Link>
-                    <Tooltip title="Logout">
-                        <IconButton onClick={() => logout()}>
-                            <LogoutIcon />
-                        </IconButton>
-                    </Tooltip>
-                </>
-            ) : (
-                <>
-                    <Link to="/login">Login</Link>
-                    <Link to="/registration">Register</Link>
-                </>
-            )}
+            <nav>
+                <Link to="/">colle.</Link>
+                <Link to="/collections">collections.</Link>
+            </nav>
+
+            <div className={style.actions}>
+                <Switch inputProps={{ 'aria-label': 'controlled' }} />
+                <TextField label="Search" variant="standard" className={style.search} />
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                    <Search />
+                </IconButton>
+            </div>
+
+            <div className={style.auth}>
+                {username ? (
+                    <>
+                        <Link to="/me" className={style.user}>
+                            {username}
+                        </Link>
+                        <Tooltip title="Logout">
+                            <IconButton onClick={() => logout()}>
+                                <LogoutIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login" className={style.login}>
+                            Login
+                        </Link>
+                        <Link to="/registration" className={style.register}>
+                            Register
+                        </Link>
+                    </>
+                )}
+            </div>
         </header>
     );
 };

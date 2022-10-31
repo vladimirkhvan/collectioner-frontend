@@ -1,4 +1,81 @@
-.header{
-    width: 100%;
-    
+@import '../../scss/variables';
+
+header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    font-weight: 700;
+    font-size: 17px;
+    padding: 20px;
+
+    background-color: lighten($color: $accent, $amount: 33%);
+
+    .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .search {
+            label{
+                top:-15px
+            }
+            div {
+                margin-top: 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 850px) {
+        justify-content: center;
+    }
+
+    nav {
+        a {
+            margin-right: 15px;
+        }
+    }
+
+    .user {
+        margin-bottom: 0;
+        margin-right: 20px;
+        font-size: 20px;
+        font-weight: 600;
+        color: $accent;
+    }
+
+    .register {
+        background: #fff;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 21px;
+
+        padding: 10px 15px;
+        color: $accent;
+    }
+
+    .login {
+        color: $accent;
+        position: relative;
+        margin-right: 60px;
+
+        &::after {
+            position: absolute;
+            bottom: -7px;
+            left: 40%;
+
+            content: '';
+            width: 15px;
+            border-bottom: 3px solid $accent;
+            border-radius: 10px;
+
+            transition: left ease-in-out 0.1s, width ease-in-out 0.1s;
+        }
+
+        &:hover {
+            &::after {
+                left: 0;
+                width: 100%;
+            }
+        }
+    }
 }

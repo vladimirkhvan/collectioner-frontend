@@ -81,7 +81,8 @@ export const CollectionForm: React.FC = () => {
 
     const fields = customFields.map((field, index) => (
         <TextField
-            label={`${field.attribute_type} fieldName`}
+            className={style.formInput}
+            label={`for ${field.attribute_type.toLowerCase()}.`}
             variant="outlined"
             onChange={(event) => onChangeField(event, index)}
             key={field.localId}
@@ -107,15 +108,11 @@ export const CollectionForm: React.FC = () => {
     }, [themeError]);
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                flexDirection: 'column',
-            }}>
+        <Box className={style.collection}>
             <form className={style.form} onSubmit={formik.handleSubmit}>
+                <h2>create collection</h2>
                 <TextField
+                    className={style.formInput}
                     label="Name"
                     variant="outlined"
                     name="name"
@@ -127,12 +124,14 @@ export const CollectionForm: React.FC = () => {
                 />
                 <Box>
                     <MDEditor
+                        className={style.editor}
                         value={formik.values.description}
                         onChange={(value) => formik.setFieldValue('description', value)}
                     />
                 </Box>
                 <Box>
-                    <label>
+                    <label className={style.addImage}>
+                        add image
                         <input
                             name="image"
                             type="file"
@@ -147,6 +146,7 @@ export const CollectionForm: React.FC = () => {
                     <CircularProgress disableShrink />
                 ) : (
                     <Autocomplete
+                        className={style.autocomplete}
                         disablePortal
                         isOptionEqualToValue={(option, value) => option.id === value.id}
                         value={formik.values.theme}
@@ -159,43 +159,27 @@ export const CollectionForm: React.FC = () => {
                         )}
                     />
                 )}
-
-                <Button variant="outlined" type="submit">
-                    create collection
-                </Button>
-            </form>
-            <Accordion className={style.accordion}>
-                <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content">
-                    Option Fields
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                        }}>
-                        <Button variant="contained" onClick={() => onCreateField(TYPES.BOOLEAN)}>
-                            add boolean input
-                        </Button>
-                        <Button variant="contained" onClick={() => onCreateField(TYPES.NUMBER)}>
-                            add number input
-                        </Button>
-                        <Button variant="contained" onClick={() => onCreateField(TYPES.TEXT)}>
-                            add text input
-                        </Button>
-                        <Button variant="contained" onClick={() => onCreateField(TYPES.STRING)}>
-                            add string input
-                        </Button>
-                        <Button variant="contained" onClick={() => onCreateField(TYPES.DATE)}>
-                            add date input
-                        </Button>
+                <Accordion className={style.accordion}>
+                    <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content">
+                        Option Fields
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <div className={style.pills}>
+                            <button onClick={() => onCreateField(TYPES.BOOLEAN)} type='button'>boolean</button>
+                            <button onClick={() => onCreateField(TYPES.NUMBER)} type='button'>number</button>
+                            <button onClick={() => onCreateField(TYPES.TEXT)} type='button'>text</button>
+                            <button onClick={() => onCreateField(TYPES.STRING)} type='button'>string</button>
+                            <button onClick={() => onCreateField(TYPES.DATE)} type='button'>date</button>
+                        </div>
 
                         {fields}
-                    </Box>
-                </AccordionDetails>
-            </Accordion>
+                    </AccordionDetails>
+                </Accordion>
+
+                <button type="submit" className={style.createButton}>
+                    create collection
+                </button>
+            </form>
         </Box>
     );
 };

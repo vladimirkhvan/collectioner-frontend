@@ -1,7 +1,13 @@
-.themeForm{
+@import '../../scss/variables';
+@import '../../scss/mixins/form';
+@import '../../scss/mixins/button';
+
+.theme{
+    @include form;
+    button{
+        @include button;
+    }
     display: flex;
     flex-direction: column;
-    div{
-        margin-bottom: 10px;
-    }
+    align-items: center;
 }

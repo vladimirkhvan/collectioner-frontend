@@ -1,5 +1,69 @@
-.form{
-    display: flex;
-    flex-direction: column;
-    margin-top: 200px;
+@import '../../scss/variables';
+@import '../../scss/mixins/form';
+@import '../../scss/mixins/button';
+
+.collection {
+    @include form;
+
+    .editor {
+        * {
+            color: white;
+        }
+    }
+
+    .addImage {
+        @include button;
+        input {
+            display: none;
+        }
+        display: block;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .autocomplete {
+        input {
+            font-family: $main-font;
+            font-size: 18px;
+        }
+        margin-bottom: 30px;
+    }
+
+    .accordion {
+        font-family: $main-font;
+        font-size: 18px;
+    }
+
+    .createButton {
+        @include button;
+        margin-top: 30px;
+        margin-bottom: 40px;
+    }
+
+    .pills {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 30px;
+
+        button {
+            font-size: 16px;
+            padding: 6px 10px;
+            border: none;
+            background-color: $accent;
+            color: $secondary;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform, ease-in-out, 0.1s;
+            &:hover {
+                background: darken($color: $accent, $amount: 3%);
+            }
+
+            &:active {
+                transform: translateY(2px);
+                background: darken($color: $accent, $amount: 3%);
+            }
+        }
+    }
 }

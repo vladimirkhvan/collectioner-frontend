@@ -1,0 +1,8 @@
+@import '../../scss/normalize';
+@import '../../scss/variables';
+@import '../../scss/mixins/auth';
+@import '../../scss/mixins/button';
+
+.authentication {
+    @include auth;
+}

@@ -34,10 +34,11 @@ export const ThemeForm: React.FC = () => {
     }, [data]);
 
     return (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', flexDirection: 'column'  }}>
-            <h1>Create theme</h1>
-            <form className={style.themeForm} onSubmit={formik.handleSubmit}>
+        <Box className={style.theme}>
+            <h2>Create theme</h2>
+            <form className={style.form} onSubmit={formik.handleSubmit}>
                 <TextField
+                    className={style.formInput}
                     label="Name"
                     variant="outlined"
                     name="label"

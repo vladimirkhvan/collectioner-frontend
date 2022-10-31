@@ -4,6 +4,8 @@ import { useQuery } from '@apollo/client';
 import { GET_ME } from '../../apollo/queries/GetMe';
 import { useNavigate } from 'react-router-dom';
 
+import style from './UserInfo.module.scss';
+
 export const UserInfo: React.FC = () => {
     const { loading, error, data } = useQuery(GET_ME);
     const navigate = useNavigate();
@@ -25,10 +27,11 @@ export const UserInfo: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className={style.info}>
+            <h2>My profile</h2>
             <div>
-                <span>{data.getMe.id}. </span>
-                <span>{data.getMe.name}</span>
+                <p>ID: {data.getMe.id}. </p>
+                <p>Name: {data.getMe.name}</p>
             </div>
         </div>
     );
