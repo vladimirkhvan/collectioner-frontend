@@ -1,0 +1,20 @@
+@import '../../scss/variables';
+@import '../../scss/mixins/form';
+@import '../../scss/mixins/button';
+
+.item{
+    @include form;
+
+    .autocomplete{
+        font-family: $main-font;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .createButton{
+        @include button;
+        margin-top: 30px;
+    }
+}
