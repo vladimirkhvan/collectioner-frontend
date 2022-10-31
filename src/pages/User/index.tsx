@@ -3,11 +3,18 @@ import { CollectionForm } from '../../components/CollectionForm';
 import { ThemeForm } from '../../components/ThemeForm';
 import { UserInfo } from '../../components/UserInfo';
 
-export const User: React.FC = () => {
+import style from './User.module.scss'
 
-    return <div>
-        <UserInfo/>
-        <CollectionForm/>
-        <ThemeForm/>
-    </div>;
+export const User: React.FC = () => {
+    return (
+        <div>
+            <div className={style.info}>
+                <UserInfo />
+            </div>
+            <div className={style.forms}>
+                <CollectionForm />
+                <ThemeForm />
+            </div>
+        </div>
+    );
 };
