@@ -1,0 +1,36 @@
+@import '../../scss/variables';
+
+@mixin button {
+    margin-top: 60px;
+
+    background: $accent;
+    border-radius: 10px;
+    border: none;
+
+    padding: 20px;
+
+    font-family: $reg-font;
+    font-weight: 600;
+    font-size: 18px;
+
+    letter-spacing: 0.09em;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition: transform ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+    &:hover {
+        box-shadow: 0px 12px 21px 4px rgba(68, 97, 242, 0.15);
+    }
+
+    &:active {
+        transform: translateY(2px);
+        background: darken($color: $accent, $amount: 3%);
+    }
+
+    @media screen and (max-width: 450px) {
+        margin-top: 0px;
+    }
+}

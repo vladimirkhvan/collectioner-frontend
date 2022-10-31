@@ -1,0 +1,46 @@
+@import '../../scss/variables';
+
+@mixin form {
+    h2 {
+        font-weight: 700;
+        font-size: 38px;
+
+        color: $accent;
+
+        margin-bottom: 40px;
+    }
+
+    .form {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+
+        @media screen and (max-width: 450px) {
+            width: 100%;
+            height: 100%;
+        }
+        .formInput {
+            margin-bottom: 20px;
+
+            display: flex;
+            justify-content: space-between;
+
+            label {
+                font-family: $reg-font;
+                font-weight: 500;
+                background: $secondary;
+                letter-spacing: 0.09em;
+                color: #4f555a;
+            }
+
+            input {
+                font-family: $reg-font;
+                font-weight: 500;
+                font-size: 16px;
+                background: $secondary;
+                letter-spacing: 0.09em;
+                color: #4f555a;
+            }
+        }
+    }
+}
