@@ -5,5 +5,5 @@ export const postImage = async (formData) => {
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`,
         formData,
     );
-    return data.secureUrl;
+    return data.secure_url;
 };
