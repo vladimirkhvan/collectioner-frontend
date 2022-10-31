@@ -5,6 +5,9 @@ import { Main } from '../pages/Main';
 import { Login } from '../pages/Login';
 import { Home } from '../pages/Home';
 import { User } from '../pages/User';
+import { Collections } from '../pages/Collections';
+import { Collection } from '../pages/Collection';
+import { ConfigureItem } from '../pages/ConfigureItem';
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +31,18 @@ export const router = createBrowserRouter([
                 path: '/me',
                 element: <User />,
             },
+            {
+                path: '/collections',
+                element: <Collections />,
+            },
+            {
+                path: '/collections/:id',
+                element: <Collection/>,
+            },
+            {
+                path: '/collections/:id/create',
+                element: <ConfigureItem/>,
+            }
         ],
     },
 ]);
